@@ -451,7 +451,12 @@ def main():
     if not API_KEY or not API_SECRET:
         print("Set GATE_API_KEY and GATE_API_SECRET first (see top of file).")
         return
-    print("MODE:", "DRY RUN (no real trades)" if DRY_RUN else "LIVE FUTURES TRADING")
+    if not DRY_RUN:
+        print("LIVE TRADING BLOCKED: exchange-hosted protective orders, fill reconciliation,")
+        print("restart recovery and protective-order cleanup are not implemented and tested.")
+        print("Keep DRY_RUN=true. No real orders were sent.")
+        return
+    print("MODE:", "DRY RUN (no real trades)")
     print(f"Leverage {LEVERAGE}x | risk per trade {RISK_PCT:.0%} of balance | "
           f"stop {STOP_ATR}x ATR | target {TP_ATR}x ATR")
     acc = show_balance()
